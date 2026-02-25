@@ -56,11 +56,12 @@ class CreateItems extends Migration
         ]);
 
         $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('category_id', 'categories', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('items');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('items');
     }
 }

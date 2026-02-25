@@ -60,6 +60,6 @@ class CreateOrderItems extends Migration
 
     public function down()
     {
-        //
+        $this->forge->dropTable('order_items');
     }
 }
