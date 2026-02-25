@@ -40,16 +40,16 @@ class CreateOrders extends Migration
                 'default' => 0,
             ],
             'status' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+                'type' => 'enum',
+                'constraint' => ['pending', 'settlement', 'cooked'],
             ],
             'table_number' => [
                 'type' => 'INT',
                 'null' => true,
             ],
             'payment_method' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+                'type' => 'enum',
+                'constraint' => ['tunai', 'qris'],
                 'null' => true,
             ],
             'notes' => [
@@ -67,14 +67,12 @@ class CreateOrders extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-
         $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
-
         $this->forge->createTable('orders');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('orders');
     }
 }

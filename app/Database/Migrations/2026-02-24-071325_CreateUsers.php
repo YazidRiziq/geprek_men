@@ -57,14 +57,12 @@ class CreateUsers extends Migration
         ]);
 
         $this->forge->addKey('id', true);
-
         $this->forge->addForeignKey('role_id', 'roles', 'id', 'CASCADE', 'CASCADE');
-
         $this->forge->createTable('users');
     }
 
     public function down()
     {
-        //
+        $this->forge->dropTable('users');
     }
 }
