@@ -10,7 +10,7 @@
             <span class="material-symbols-outlined font-bold">restaurant</span>
         </div>
         <div>
-            <h1 class="text-lg font-bold leading-none">RestoAdmin</h1>
+            <h1 class="text-lg font-bold leading-none">Geprek Men</h1>
             <p class="text-xs text-slate-500 dark:text-primary/60">Management System</p>
         </div>
     </div>
