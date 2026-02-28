@@ -26,73 +26,61 @@
                 <span class="material-symbols-outlined text-primary">inventory_2</span>
                 Menu Categories
             </h3>
-            <button class="flex items-center gap-1 text-primary text-sm font-bold hover:underline">
+            <a href="<?= base_url('admin/categories/create') ?>" class="flex items-center gap-1 text-primary text-sm font-bold hover:underline">
                 <span class="material-symbols-outlined text-lg">add_circle</span>
                 Add New
-            </button>
+            </a>
         </div>
         <div class="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/10 overflow-hidden shadow-sm">
             <table class="w-full text-left">
                 <thead class="bg-slate-50 dark:bg-primary/5 text-slate-500 dark:text-primary/70 text-xs font-bold uppercase tracking-wider">
                     <tr>
-                        <th class="px-6 py-4">Category</th>
+                        <th class="px-6 py-4" >Category</th>
                         <th class="px-6 py-4 text-center">Items</th>
-                        <th class="px-6 py-4 text-center">Status</th>
+                        <th class="px-6 py-4 text-center"></th>
                         <th class="px-6 py-4 text-right">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 dark:divide-primary/5">
-                    <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Appetizers</td>
-                        <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">12</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Main Course</td>
-                        <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">28</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Drinks</td>
-                        <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">45</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Desserts</td>
-                        <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">14</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">Inactive</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
-                        <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">Specials</td>
-                        <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">5</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-primary/20 text-primary">Active</span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">edit</span></button>
-                        </td>
-                    </tr>
-                </tbody>
+               <tbody class="divide-y divide-slate-100 dark:divide-primary/5">
+
+     <?php if (!empty($categories)) : ?>
+            <?php foreach ($categories as $cat) : ?>
+            <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+            <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
+                <?= esc($cat['cat_name']) ?>
+                
+            </td>
+
+            <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">
+                0
+            </td>
+
+            <td class="px-6 py-4 text-center"></td>
+
+            <td class="px-6 py-4 text-right flex items-center justify-end gap-3">
+                <a href="<?= base_url('admin/categories/edit/' . $cat['id']) ?>"
+                   class="text-slate-400 hover:text-primary">
+                    <span class="material-symbols-outlined">edit</span>
+                </a>
+                <form action="<?= base_url('admin/categories/delete/' . $cat['id']) ?>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                    <?= csrf_field() ?>
+                    <button type="submit" class="text-slate-400 hover:text-red-500">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        
+    <?php endforeach ?>
+<?php else : ?>
+    <tr>
+        <td colspan="4" class="px-6 py-6 text-center text-slate-400">
+            No categories found
+        </td>
+    </tr>
+<?php endif ?>
+
+</tbody>
             </table>
         </div>
         <div class="mt-2 bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-start gap-4">

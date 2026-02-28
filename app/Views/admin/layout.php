@@ -1,3 +1,4 @@
+<?php $active = $active ?? ''; ?>
 <!DOCTYPE html>
 <html class="dark" lang="en">
 <head>
