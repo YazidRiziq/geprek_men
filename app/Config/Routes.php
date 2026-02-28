@@ -14,6 +14,12 @@ $routes->get('admin/roles', 'Admin\RoleController::index');
 $routes->get('admin/categories', 'Admin\CategoryController::index');
 $routes->get('admin/orders', 'Admin\OrderController::index');
 
+$routes->get('admin/categories/create', 'Admin\CategoryController::create');
+$routes->post('admin/categories/store', 'Admin\CategoryController::store');
+$routes->get('admin/categories/edit/(:num)', 'Admin\CategoryController::edit/$1');
+$routes->post('admin/categories/update/(:num)', 'Admin\CategoryController::update/$1');
+$routes->post('admin/categories/delete/(:num)', 'Admin\CategoryController::delete/$1');
+
 
 // Testing
 $routes->get('admin/items', 'Admin\ItemController::index');

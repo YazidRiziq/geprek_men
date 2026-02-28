@@ -1,4 +1,5 @@
 <?php
+    $active = $active ?? '';
     $baseClass = "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors";
     $inactiveClass = "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-primary/10 hover:text-primary";
     $activeClass = "bg-primary text-background-dark font-medium";
