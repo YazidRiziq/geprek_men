@@ -5,11 +5,11 @@
 <!-- Header -->
 <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
     <div>
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight tracking-tight">Add New Menu</h1>
-        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Create a new item for your restaurant's digital menu.</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight tracking-tight">Edit Employee</h1>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Update an existing employee in your restaurant.</p>
     </div>
     <div class="bg-primary/10 p-3 rounded-full">
-        <span class="material-symbols-outlined text-primary text-3xl">restaurant_menu</span>
+        <span class="material-symbols-outlined text-primary text-3xl">person</span>
     </div>
 </div>
 
@@ -27,61 +27,71 @@
 <?php endif; ?>
 
 <!-- Form Section -->
-<form action="<?= base_url('/admin/menu/store') ?>" method="post" enctype="multipart/form-data" class="p-8 space-y-6">
+<form action="<?= base_url('/admin/employees/update/' . $user['id']) ?>" method="post" enctype="multipart/form-data" class="p-8 space-y-6">
 
-    <!-- Item Name -->
+    <!-- Username -->
     <div class="flex flex-col gap-2">
         <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
-            Name <span class="text-red-500">*</span>
+            Username <span class="text-red-500">*</span>
         </label>
         <div class="relative">
-            <input value="<?= old('name') ?>" id="name" name="name" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. Grilled Wagyu Steak" type="text" required/>
+            <input value="<?= old('username', $user['username']) ?>" id="username" name="username" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. john_doe" type="text" required/>
         </div>
     </div>
-    
+
+    <!-- Full Name -->
+    <div class="flex flex-col gap-2">
+        <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
+            Full Name <span class="text-red-500">*</span>
+        </label>
+        <div class="relative">
+            <input value="<?= old('fullname', $user['fullname']) ?>" id="fullname" name="fullname" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. John Doe" type="text" required/>
+        </div>
+    </div>
+
+    <!-- Email -->
+    <div class="flex flex-col gap-2">
+        <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
+            Email <span class="text-red-500">*</span>
+        </label>
+        <div class="relative">
+            <input value="<?= old('email', $user['email']) ?>" id="email" name="email" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. john@example.com" type="email" required/>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Category Dropdown -->
+        <!-- Role Dropdown -->
         <div class="flex flex-col gap-2">
             <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
-                Category <span class="text-red-500">*</span>
+                Role <span class="text-red-500">*</span>
             </label>
-            <select name="category_id"
+            <select name="role_id"
                 class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 appearance-none"
                 required>
 
-                <option value="" disabled <?= old('category_id') ? '' : 'selected' ?>>
-                    Select category
+                <option value="" disabled <?= old('role_id', $user['role_id']) ? '' : 'selected' ?>>
+                    Select Role
                 </option>
 
-                <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['id'] ?>"
-                        <?= old('category_id') == $category['id'] ? 'selected' : '' ?>>
-                        <?= esc($category['cat_name']) ?>
+                <?php foreach ($roles as $role): ?>
+                    <option value="<?= $role['id'] ?>"
+                        <?= old('role_id', $user['role_id']) == $role['id'] ? 'selected' : '' ?>>
+                        <?= esc($role['role_name']) ?>
                     </option>
                 <?php endforeach; ?>
 
             </select>
         </div>
 
-        <!-- Price Input -->
+        <!-- Phone Input -->
         <div class="flex flex-col gap-2">
             <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
-                Price <span class="text-red-500">*</span>
+                Phone <span class="text-red-500">*</span>
             </label>
             <div class="relative flex items-center">
-                <span class="absolute left-4 text-slate-500 font-medium">Rp</span>
-                <input value="<?= old('price') ?>" id="price" name="price" class="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="0" type="number" required/>
+                <input value="<?= old('phone', $user['phone']) ?>" id="phone" name="phone" class="w-full pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. 083160268360" type="number" required/>
             </div>
         </div>
-    </div>
-
-    <!-- Description Textarea -->
-    <div class="flex flex-col gap-2">
-        <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
-            Description <span class="text-red-500">*</span>
-        </label>
-        <textarea name="description" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 resize-none" placeholder="Describe the ingredients, taste, and serving size..." rows="4"
-        required><?= old('description') ?></textarea>
     </div>
 
     <!-- Image Upload -->
@@ -103,17 +113,17 @@
                 </p>
             </div>
         </div>
-        <input accept=".jpg,.jpeg" class="hidden" id="img" name="img" type="file" required>
+        <input accept=".jpg,.jpeg" class="hidden" id="img" name="img" type="file">
     </div>
 
     <!-- Footer Action Buttons -->
     <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-        <a class="px-6 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="<?= base_url('admin/menu') ?>">
+        <a class="px-6 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="<?= base_url('admin/employees') ?>">
             Cancel
         </a>
         <button class="px-8 py-2.5 bg-primary text-slate-900 font-bold rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center gap-2" type="submit">
             <span class="material-symbols-outlined text-lg">save</span>
-            Save Menu Item
+            Save Employee
         </button>
     </div>
 </form>
