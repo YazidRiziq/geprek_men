@@ -4,28 +4,36 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\CategoryModel;
 
 class CategoryController extends BaseController
 {
     protected $categoryModel;
+
     public function __construct()
     {
-        $this->categoryModel = new \App\Models\CategoryModel();
+        $this->categoryModel = new CategoryModel();
     }
-    public function index()
-    {
-        $categories = $this->categoryModel->findAll();
+
+    // LIST ALL CATEGORIES
+    public function index() {
+            $categories = $this->categoryModel
+            ->select('categories.*, COUNT(items.id) as total_items')
+            ->join('items', 'items.category_id = categories.id AND items.deleted_at IS NULL', 'left')
+            ->groupBy('categories.id')
+            ->findAll();
+
         $data = [
             'title' => 'Manage Categories',
             'active' => 'categories',
             'categories' => $categories,
         ];
-        
+
         return view('admin/categories/categories', $data);
     }
 
-    public function create()
-    {
+    // FORM NEW CATEGORY
+    public function create() {
         $data = [
             'title' => 'Create Category',
             'active' => 'categories',   
@@ -34,43 +42,95 @@ class CategoryController extends BaseController
         return view('admin/categories/categoriescreate', $data);
     }
 
-    public function store()
-{
-    $data = [
-        'cat_name'    => $this->request->getPost('cat_name'),
-        'description' => $this->request->getPost('description'),
-    ];
+    // CREATE NEW CATEGORY
+    public function store() {
+        $rules = [
+            'cat_name' => 'required',
+            'description' => 'required',
+        ];
 
-    $this->categoryModel->insert($data);
+        // Validate input
+        if (! $this->validate($rules)) {
+            return redirect()
+                ->to('/admin/categories/create')
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
 
-    session()->setFlashdata('success', 'Category berhasil ditambahkan.');
-    return redirect()->to('/admin/categories');
-}
+        $this->categoryModel->insert([
+            'cat_name'        => $this->request->getPost('cat_name'),
+            'description' => $this->request->getPost('description'),
+        ]);
+
+        return redirect()
+            ->to('/admin/categories')
+            ->with('success', 'Category berhasil ditambahkan.');
+    }
     
-    public function edit($id)
-    {
-        $categoryModel = new \App\Models\CategoryModel();
-        $data['category'] = $categoryModel->find($id);
-        $data['title'] = 'Edit Category';
-        $data['active'] = 'categories';
+    // FORM EDIT CATEGORY
+    public function edit($id) {
+        $category = $this->categoryModel->find($id);
+
+        if (! $category) {
+            return redirect()->to('/admin/categories')
+                ->with('error', 'Category tidak ditemukan.');
+        }
+
+        $data = [
+            'title' => 'Edit Category',
+            'active' => 'categories',
+            'category' => $category,
+            'categories' => $this->categoryModel->findAll()
+        ];
+
         return view('admin/categories/edit_category', $data);
     }
 
-    public function update($id)
-    {
+    // UPDATE CATEGORY
+    public function update($id) {
+        $category = $this->categoryModel->find($id);
+
+        if (! $category) {
+            return redirect()->to('/admin/categories')
+                ->with('error', 'Category tidak ditemukan.');
+        }
+
+        $rules = [
+            'cat_name' => 'required',
+            'description' => 'required',
+        ];
+
+        if (! $this->validate($rules)) {
+            return redirect()
+                ->to('/admin/categories/edit/' . $id)
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
         $this->categoryModel->update($id,[
             'cat_name' => $this->request->getPost('cat_name'),
             'description' => $this->request->getPost('description'),
         ]);
-        session()->setFlashdata('success', 'Category berhasil diperbarui.');
-        return redirect()->to('/admin/categories');
+
+        return redirect()
+            ->to('/admin/categories')
+            ->with('success', 'Category berhasil diperbarui.');
     }
 
-    public function delete($id)
-    {
+    // DELETE CATEGORY
+    public function delete($id) {
+        $category = $this->categoryModel->find($id);
+
+        if (! $category) {
+            return redirect()->to('/admin/categories')
+                ->with('error', 'Category tidak ditemukan.');
+        }
+
         $this->categoryModel->delete($id);
-        session()->setFlashdata('success', 'Category berhasil dihapus.');
-        return redirect()->to('/admin/categories');
+
+        return redirect()
+            ->to('/admin/categories')
+            ->with('success', 'Category berhasil dihapus.');
     }
 
     

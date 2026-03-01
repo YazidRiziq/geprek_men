@@ -1,63 +1,60 @@
 <?= $this->extend('admin/layout') ?>
 <?= $this->section('content') ?>
 
-<section class="flex-1 bg-slate-50 dark:bg-slate-900/20 p-6">
+<!-- Header -->
+<div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight tracking-tight">Add New Category</h1>
+        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Create a new category.</p>
+    </div>
+    <div class="bg-primary/10 p-3 rounded-full">
+        <span class="material-symbols-outlined text-primary text-3xl">restaurant_menu</span>
+    </div>
+</div>
 
-    <div class="max-w-3xl mx-auto bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/10 shadow-sm">
-
-        <!-- Header -->
-        <div class="px-6 py-4 border-b border-slate-200 dark:border-primary/10">
-            <h2 class="text-xl font-black text-slate-900 dark:text-slate-100">
-                Add New Category
-            </h2>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Create a new menu category
-            </p>
+<?php if (session()->getFlashdata('errors')): ?>
+    <div class="p-6">
+        <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+            <ul>
+                <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach; ?>
+            </ul>
         </div>
+    </div>
+<?php endif; ?>
 
-        <!-- Form -->
-        <form action="<?= base_url('admin/categories/store') ?>" method="post" class="p-6 space-y-6">
-
-            <?= csrf_field() ?>
-
-            <!-- Category Name -->
-            <div>
-                <label class="block text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                    Category Name
-                </label>
-                <input type="text"  name="cat_name"required class="w-full rounded-lg border border-slate-300 dark:border-primary/20 bg-white dark:bg-background-dark px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="e.g. Appetizers">
-            </div>
-
-            <!-- Description -->
-            <div>
-                <label class="block text-sm font-bold text-slate-700 dark:text-slate-200 mb-1">
-                    Description
-                </label>
-                <textarea
-                    name="description"
-                    rows="4"
-                    class="w-full rounded-lg border border-slate-300 dark:border-primary/20 bg-white dark:bg-background-dark px-4 py-2 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Optional description"
-                ></textarea>
-            </div>
-
-            <!-- Action -->
-            <div class="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-primary/10">
-                <a href="<?= base_url('admin/categories') ?>"
-                   class="px-5 py-2 rounded-lg bg-slate-100 dark:bg-primary/10 text-slate-700 dark:text-slate-200 font-bold hover:bg-slate-200 dark:hover:bg-primary/20 transition">
-                    Cancel
-                </a>
-
-                <button type="submit"
-                        class="px-6 py-2 rounded-lg bg-primary text-background-dark font-bold hover:opacity-90 transition shadow-lg shadow-primary/20">
-                    Save Category
-                </button>
-            </div>
-
-        </form>
+<form action="<?= base_url('admin/categories/store') ?>" method="post" enctype="multipart/form-data" class="p-8 space-y-6">
+    
+    <!-- Item Name -->
+    <div class="flex flex-col gap-2">
+        <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
+            Category Name <span class="text-red-500">*</span>
+        </label>
+        <div class="relative">
+            <input value="<?= old('cat_name') ?>" id="cat_name" name="cat_name" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400" placeholder="e.g. Dessert" type="text" required/>
+        </div>
     </div>
 
-</section>
+    <!-- Description Textarea -->
+    <div class="flex flex-col gap-2">
+        <label class="text-slate-900 dark:text-slate-100 font-semibold text-sm flex items-center gap-1">
+            Description <span class="text-red-500">*</span>
+        </label>
+        <textarea name="description" class="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-slate-100 placeholder:text-slate-400 resize-none" placeholder="Describe the category..." rows="4"
+        required><?= old('description') ?></textarea>
+    </div>
+
+    <!-- Footer Action Buttons -->
+    <div class="flex items-center justify-end gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <a class="px-6 py-2.5 rounded-lg text-slate-600 dark:text-slate-300 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="<?= base_url('admin/categories') ?>">
+            Cancel
+        </a>
+        <button class="px-8 py-2.5 bg-primary text-slate-900 font-bold rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center gap-2" type="submit">
+            <span class="material-symbols-outlined text-lg">save</span>
+            Save Category
+        </button>
+    </div>
+</form>
 
 <?= $this->endSection() ?>
