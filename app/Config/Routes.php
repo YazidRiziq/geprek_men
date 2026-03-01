@@ -27,6 +27,11 @@ $routes->post('admin/employees/delete/(:num)', 'Admin\EmployeeController::delete
 
 // Role Management
 $routes->get('admin/roles', 'Admin\RoleController::index');
+$routes->get('admin/roles/create', 'Admin\RoleController::create');
+$routes->post('admin/roles/store', 'Admin\RoleController::store');
+$routes->get('admin/roles/edit/(:num)', 'Admin\RoleController::edit/$1');
+$routes->post('admin/roles/update/(:num)', 'Admin\RoleController::update/$1');
+$routes->post('admin/roles/delete/(:num)', 'Admin\RoleController::delete/$1');
 
 // Category Management
 $routes->get('admin/categories', 'Admin\CategoryController::index');

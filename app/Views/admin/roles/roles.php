@@ -1,116 +1,87 @@
 <?= $this->extend('admin/layout') ?>
 
-<?= $this->section('content') ?>
+<?= $this->section('content') ?> 
 
-<section class="flex-1 flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-900/20">
-    <!-- Header Section -->
-    <div class="flex flex-wrap justify-between items-center gap-4 p-6 bg-white dark:bg-background-dark border-b border-slate-200 dark:border-primary/10">
-        <div class="flex flex-col gap-1">
-            <h2 class="text-slate-900 dark:text-slate-100 text-2xl font-black leading-tight tracking-tight">Manage Categories &amp; Roles</h2>
-            <p class="text-slate-500 dark:text-primary/60 text-sm font-normal">Organize your menu structure and define user access levels.</p>
+<!-- Header -->
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h2 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Manage Roles</h2>
+            <p class="text-slate-500 dark:text-slate-400 mt-1">Configure your restaurant's role.</p>
         </div>
-        <div class="flex gap-3">
-            <button class="flex items-center justify-center rounded-lg h-10 px-4 bg-slate-100 dark:bg-primary/10 text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-slate-200 dark:hover:bg-primary/20 transition-all">
-                Discard
-            </button>
-            <button class="flex items-center justify-center rounded-lg h-10 px-6 bg-primary text-background-dark text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-primary/20">
-                Save Changes
-            </button>
-        </div>
+        <a href="<?= base_url('admin/roles/create') ?>" class="flex items-center gap-2 px-5 py-2.5 bg-primary text-background-dark font-bold rounded-lg hover:brightness-110 transition-all shadow-lg shadow-primary/20">
+            <span class="material-symbols-outlined">add</span>
+            Add New Role
+        </a>
     </div>
-    
-    <!-- Right Side: User Roles & Permissions -->
-    <div class="flex-1 flex flex-col gap-4">
-        <div class="flex items-center justify-between">
-            <h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">security</span>
-                User Roles &amp; Permissions
-            </h3>
+
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="mb-4 p-4 rounded-lg bg-emerald-100 text-emerald-700 border border-emerald-200">
+            <?= esc(session()->getFlashdata('success')) ?>
         </div>
-        <div class="space-y-4">
-            <!-- Role Card: Admin -->
-            <div class="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/10 p-5 shadow-sm">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold">AD</div>
-                        <div>
-                            <h4 class="text-slate-900 dark:text-slate-100 font-bold">Admin</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Full system access and settings</p>
-                        </div>
-                    </div>
-                    <span class="material-symbols-outlined text-primary">verified_user</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mt-4">
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Manage Menu</span>
-                        <div class="w-8 h-4 bg-primary rounded-full relative">
-                            <div class="absolute right-1 top-1 size-2 bg-background-dark rounded-full"></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Refund Orders</span>
-                        <div class="w-8 h-4 bg-primary rounded-full relative">
-                            <div class="absolute right-1 top-1 size-2 bg-background-dark rounded-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Role Card: Chef -->
-            <div class="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/10 p-5 shadow-sm">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold">CH</div>
-                        <div>
-                            <h4 class="text-slate-900 dark:text-slate-100 font-bold">Chef</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Manage kitchen and food prep</p>
-                        </div>
-                    </div>
-                    <button class="text-xs text-primary font-bold hover:underline">Customize</button>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Kitchen Display</span>
-                        <div class="w-8 h-4 bg-primary rounded-full relative">
-                            <div class="absolute right-1 top-1 size-2 bg-background-dark rounded-full"></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Edit Menu Items</span>
-                        <div class="w-8 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative">
-                            <div class="absolute left-1 top-1 size-2 bg-white dark:bg-slate-400 rounded-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Role Card: Cashier -->
-            <div class="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-primary/10 p-5 shadow-sm">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold">CA</div>
-                        <div>
-                            <h4 class="text-slate-900 dark:text-slate-100 font-bold">Cashier</h4>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Handle payments and checkout</p>
-                        </div>
-                    </div>
-                    <button class="text-xs text-primary font-bold hover:underline">Customize</button>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Create Order</span>
-                        <div class="w-8 h-4 bg-primary rounded-full relative">
-                            <div class="absolute right-1 top-1 size-2 bg-background-dark rounded-full"></div>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-primary/5 border border-slate-100 dark:border-primary/10">
-                        <span class="text-xs font-medium">Daily Reports</span>
-                        <div class="w-8 h-4 bg-slate-300 dark:bg-slate-700 rounded-full relative">
-                            <div class="absolute left-1 top-1 size-2 bg-white dark:bg-slate-400 rounded-full"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <?php elseif (session()->getFlashdata('error')): ?>
+        <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-700 border border-red-200">
+            <?= esc(session()->getFlashdata('error')) ?>
         </div>
+    <?php endif; ?>
+
+    <!-- Table Container -->
+    <div class="bg-white dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-primary/10 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 dark:bg-primary/5">
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary/70">Role</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary/70 text-center">User</th>
+                        <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-primary/70 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-primary/5">
+                    <?php if (!empty($role)) : ?>
+                        <?php foreach ($role as $rl) : ?>
+                            <tr class="hover:bg-slate-50 dark:hover:bg-primary/5 transition-colors">
+
+                                <!-- Category Name -->
+                                <td class="px-6 py-4 font-medium text-slate-900 dark:text-slate-100">
+                                    <p>
+                                        <?= esc($rl['role_name']) ?>
+                                    </p>
+                                    <p class="text-sm text-slate-500">
+                                        <?= esc($rl['description']) ?>
+                                    </p>
+                                </td>
+
+                                <!-- Total Items -->
+                                <td class="px-6 py-4 text-center text-slate-500 dark:text-slate-400">
+                                    <?= $rl['total_users'] ?>
+                                </td>
+
+                                <!-- Action Buttons -->
+                                <td class="px-6 py-4 text-right flex items-center justify-end gap-3">
+                                    <a href="<?= base_url('admin/roles/edit/' . $rl['id']) ?>"
+                                        class="text-slate-400 hover:text-primary">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </a>
+                                    <form action="<?= base_url('admin/roles/delete/' . $rl['id']) ?>" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this role?');">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="text-slate-400 hover:text-red-500">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="4" class="px-6 py-6 text-center text-slate-400">
+                                No roles found
+                            </td>
+                        </tr>
+                    <?php endif ?>
+                </tbody>
+        </table>
     </div>
-</section>
+
+</div>
 
 <?= $this->endSection() ?>

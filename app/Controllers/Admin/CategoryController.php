@@ -17,7 +17,7 @@ class CategoryController extends BaseController
 
     // LIST ALL CATEGORIES
     public function index() {
-            $categories = $this->categoryModel
+        $categories = $this->categoryModel
             ->select('categories.*, COUNT(items.id) as total_items')
             ->join('items', 'items.category_id = categories.id AND items.deleted_at IS NULL', 'left')
             ->groupBy('categories.id')
@@ -132,10 +132,5 @@ class CategoryController extends BaseController
             ->to('/admin/categories')
             ->with('success', 'Category berhasil dihapus.');
     }
-
-    
-    
-
-
 
 }
