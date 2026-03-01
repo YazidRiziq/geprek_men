@@ -25,17 +25,20 @@ $routes->get('admin/employees/edit/(:num)', 'Admin\EmployeeController::edit/$1')
 $routes->post('admin/employees/update/(:num)', 'Admin\EmployeeController::update/$1');
 $routes->post('admin/employees/delete/(:num)', 'Admin\EmployeeController::delete/$1');
 
-
-
+// Role Management
 $routes->get('admin/roles', 'Admin\RoleController::index');
-$routes->get('admin/categories', 'Admin\CategoryController::index');
-$routes->get('admin/orders', 'Admin\OrderController::index');
 
+// Category Management
+$routes->get('admin/categories', 'Admin\CategoryController::index');
 $routes->get('admin/categories/create', 'Admin\CategoryController::create');
 $routes->post('admin/categories/store', 'Admin\CategoryController::store');
 $routes->get('admin/categories/edit/(:num)', 'Admin\CategoryController::edit/$1');
 $routes->post('admin/categories/update/(:num)', 'Admin\CategoryController::update/$1');
 $routes->post('admin/categories/delete/(:num)', 'Admin\CategoryController::delete/$1');
+
+// Order Management
+$routes->get('admin/orders', 'Admin\OrderController::index');
+
 
 
 
