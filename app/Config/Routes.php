@@ -38,3 +38,4 @@ $routes->post('admin/categories/update/(:num)', 'Admin\CategoryController::updat
 $routes->post('admin/categories/delete/(:num)', 'Admin\CategoryController::delete/$1');
 
 
+
