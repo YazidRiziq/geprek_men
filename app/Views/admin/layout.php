@@ -40,10 +40,10 @@
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar -->
-        <?= $this->include('admin/partials/sidebar') ?>
+        <?= $this->include('admin/partials/sidebar', ['active' => $active ?? null]) ?>
         
         <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col overflow-hidden">
+        <main class="flex-1 flex flex-col overflow-y-auto">
             <?= $this->renderSection('content') ?>
         </main>
         

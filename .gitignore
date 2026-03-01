@@ -46,6 +46,11 @@ $RECYCLE.BIN/
 Vagrantfile
 
 #-------------------------
+# Windows Alternate Data Streams
+#-------------------------
+*Zone.Identifier*
+
+#-------------------------
 # Temporary Files
 #-------------------------
 writable/cache/*
